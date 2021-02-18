@@ -2,23 +2,19 @@ package utils
 
 import (
 	"fmt"
-	"log"
-	"os"
 
-	"github.com/joho/godotenv"
+	"github.com/lu97chi/twittor/config"
 )
 
 // GetMongoURL function to get the url connection to mongo
 func GetMongoURL() string {
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("Error loading the .env file")
-	}
-	username := os.Getenv("MONGO_USER")
-	password := os.Getenv("MONGO_PASSWORD")
-	url := os.Getenv("MONGO_URL")
-	database := os.Getenv("MONGO_DATABASE")
-	options := os.Getenv("MONGO_CONNECTION_OPTIONS")
+	conf := config.New()
+
+	username := conf.MongoDB.User
+	password := conf.MongoDB.Password
+	url := conf.MongoDB.URL
+	database := conf.MongoDB.Database
+	options := conf.MongoDB.Options
 	databaseConnection := fmt.Sprintf("mongodb+srv://%s:%s@%s/%s?%s", username, password, url, database, options)
 	return databaseConnection
 }
